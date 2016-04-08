@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="My Favorites Recipes" />
+    </group>
+
+    <item android:title="Categories">
+        <menu>
+            <item
+                android:id="@+id/nav_cat_dinners"
+                android:title="Dinners" />
+            <item
+                android:id="@+id/nav_cat_desserts"
+                android:title="Desserts" />
+            <item
+                android:id="@+id/nav_cat_happyhour"
+                android:title="Happy Hour" />
+            <item
+                android:id="@+id/nav_cat_junior"
+                android:title="Junior" />
+            <item
+                android:id="@+id/nav_cat_cheese"
+                android:title="Cheese" />
+            <item
+                android:id="@+id/nav_cat_pizza"
+                android:title="Pizza" />
+            <item
+                android:id="@+id/nav_cat_comfortfoods"
+                android:title="Comfort Foods" />
+            <item
+                android:id="@+id/nav_cat_apps"
+                android:title="Apps" />
+
+
+        </menu>
+</item>
+
+</menu>
