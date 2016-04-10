@@ -12,8 +12,13 @@
     tools:context="com.pake.aplications.tastyapp.Recipes"
     tools:showIn="@layout/app_bar_recipes">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/list"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:dividerHeight="1dp"/>
+
 </RelativeLayout>

@@ -23,4 +23,5 @@
         app:menu="@menu/activity_recipes_drawer"
         android:background="#bbbbbb" />
 
+
 </android.support.v4.widget.DrawerLayout>

@@ -1,27 +1,51 @@
 package com.pake.aplications.tastyapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.pake.aplications.tastyapp.adater.CustomListAdapter;
+import com.pake.aplications.tastyapp.app.AppController;
+import com.pake.aplications.tastyapp.model.Recipe;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Recipes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    // Log tag
+    private static final String TAG = Recipes.class.getSimpleName();
+    //Movies json url
+    private static final String url = "http://192.168.43.31:8000/database";
+    private ProgressDialog pDialog;
+    private List<Recipe> recipeList = new ArrayList<Recipe>();
+    private ListView listView;
+    private CustomListAdapter adapter;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -30,8 +54,8 @@ public class Recipes extends AppCompatActivity
     //Function to change Activity from buttons in drawer
     private void cambiarPantalla(String nombrePantalla){
         Intent nuevaPantalla;
-        nuevaPantalla= new Intent().setClass(
-                Recipes.this, CategoryShow.class);
+        nuevaPantalla = new Intent().setClass(
+                Recipes.this, Category.class);
         nuevaPantalla.putExtra("Name",nombrePantalla);
         startActivity(nuevaPantalla);
     }
@@ -42,6 +66,9 @@ public class Recipes extends AppCompatActivity
         setContentView(R.layout.activity_recipes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Show recipes
+        loadRecipes();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -164,5 +191,74 @@ public class Recipes extends AppCompatActivity
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hidePDialog();
+    }
+
+    private void hidePDialog() {
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+    }
+
+    private void loadRecipes(){
+        listView = (ListView) findViewById(R.id.list);
+        adapter = new CustomListAdapter(this, recipeList);
+        listView.setAdapter(adapter);
+
+        pDialog = new ProgressDialog(this);
+        // Showing progress dialog before making http request
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        // Creating volley request obj
+        JsonArrayRequest recipeReq = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+                        pDialog.hide();
+
+                        // Parsing json
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+
+                                JSONObject obj = response.getJSONObject(i);
+                                Recipe recipe = new Recipe();
+                                recipe.setID(obj.getInt("RecipeId"));
+                                recipe.setTitle(obj.getString("recipe_title"));
+                                recipe.setThumbnailUrl(obj.getString("recipe_image"));
+                                recipe.setDescription(obj.getString("recipe_description"));
+
+
+
+                                // adding recipe to recipe array
+                                recipeList.add(recipe);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(recipeReq);
     }
 }
