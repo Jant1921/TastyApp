@@ -30,8 +30,8 @@ public class Recipes extends AppCompatActivity
     //Function to change Activity from buttons in drawer
     private void cambiarPantalla(String nombrePantalla){
         Intent nuevaPantalla;
-        nuevaPantalla= new Intent().setClass(
-                Recipes.this, CategoryShow.class);
+        nuevaPantalla = new Intent().setClass(
+                Recipes.this, Category.class);
         nuevaPantalla.putExtra("Name",nombrePantalla);
         startActivity(nuevaPantalla);
     }
