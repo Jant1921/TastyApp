@@ -9,6 +9,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.pake.aplications.tastyapp.util.LruBitmapCache;
 
+//Code From http://www.androidhive.info/2014/07/android-custom-listview-with-image-and-text-using-volley/
+//Android Custom ListView with Image and Text using Volley By Ravi Tamada . on July 28, 2014
 public class AppController extends Application {
 
 	public static final String TAG = AppController.class.getSimpleName();

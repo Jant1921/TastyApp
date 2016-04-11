@@ -5,6 +5,9 @@ import android.support.v4.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 
+
+//Code From http://www.androidhive.info/2014/07/android-custom-listview-with-image-and-text-using-volley/
+//Android Custom ListView with Image and Text using Volley By Ravi Tamada . on July 28, 2014
 public class LruBitmapCache extends LruCache<String, Bitmap> implements
 		ImageCache {
 	public static int getDefaultLruCacheSize() {

@@ -16,6 +16,9 @@ import com.pake.aplications.tastyapp.model.Recipe;
 
 import java.util.List;
 
+
+//Based on http://www.androidhive.info/2014/07/android-custom-listview-with-image-and-text-using-volley/
+//Android Custom ListView with Image and Text using Volley By Ravi Tamada . on July 28, 2014
 public class CustomListAdapter extends BaseAdapter {
 	private Activity activity;
 	private LayoutInflater inflater;
