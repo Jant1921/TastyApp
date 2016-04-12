@@ -205,7 +205,7 @@ public class Category extends AppCompatActivity {
         BufferedReader fin =
                 new BufferedReader(
                         new InputStreamReader(
-                                openFileInput("favorites.txt")));
+                                openFileInput("prueba3.txt")));
         if(fin!=null) {
             while((linea=fin.readLine())!=null) {
                 listado.add(linea);
