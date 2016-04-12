@@ -1,15 +1,20 @@
 package com.pake.aplications.tastyapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +28,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RecipeShow extends AppCompatActivity {
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecipeShow extends AppCompatActivity implements View.OnClickListener{
     private static final String url = "http://192.168.43.147:8000";
     private int recipe_id;
     private String title;
@@ -36,11 +47,28 @@ public class RecipeShow extends AppCompatActivity {
     ProgressDialog pDialog;
     int w= 480;//width
 
+    Button crearf;
+    Button leerf;
+    ListView lista;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Display a indeterminate progress bar on title bar
         setContentView(R.layout.activity_recipe_show);
+
+        lista=(ListView) findViewById(R.id.listView);
+
+        leerf=(Button)findViewById(R.id.leerf);
+        crearf=(Button)findViewById(R.id.crearf);
+
+        leerf.setOnClickListener(this);
+        crearf.setOnClickListener(this);
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
@@ -135,6 +163,66 @@ public class RecipeShow extends AppCompatActivity {
         });
         AppController.getInstance().addToRequestQueue(recipeReq);
     }
+
+
+
+    public void onClick(View v){
+        switch (v.getId()){
+
+            case(R.id.leerf):
+                try
+                {
+                    List<String> listado=new ArrayList<String>();
+                    String linea;
+                    String texto="";
+                    BufferedReader fin =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            openFileInput("prueba3.txt")));
+                    if(fin!=null) {
+                        while((linea=fin.readLine())!=null) {
+                            listado.add(linea);
+
+                        }
+
+                    }
+                    fin.close();
+                    Toast.makeText(this,"Carga:"+listado.size(),Toast.LENGTH_LONG).show();
+                    String favoritos[]=listado.toArray(new String[listado.size()]);
+                    ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,favoritos);
+                    lista.setAdapter(adapter);
+                }
+                catch (Exception ex)
+                {
+                    Log.e("Ficheros", "Error in read ");
+                }
+
+                break;
+            case(R.id.crearf):
+                try {
+                    OutputStreamWriter fout =
+                            new OutputStreamWriter(
+                                    openFileOutput("prueba3.txt", Context.MODE_APPEND));
+
+                    fout.write(recipe_id+"\n");
+                    fout.close();
+                } catch (Exception ex) {
+                    Log.e("Ficheros", "Error in writting");
+                }
+                break;
+
+
+
+        }
+
+
+    }
+
+
+
+
+
+
 
     private void setData(){
 
