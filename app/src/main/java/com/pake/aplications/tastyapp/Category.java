@@ -3,9 +3,12 @@ package com.pake.aplications.tastyapp;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -28,7 +31,7 @@ public class Category extends AppCompatActivity {
     // Log tag
     private static final String TAG = Category.class.getSimpleName();
     //Movies json url
-    private static final String url = "http://192.168.43.31:8000/database";
+    private static final String url = "http://192.168.43.147:8000/main";
     private ProgressDialog pDialog;
     private List<Recipe> recipeList = new ArrayList<Recipe>();
     private ListView listView;
@@ -118,6 +121,15 @@ public class Category extends AppCompatActivity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(recipeReq);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long arg) {
+                Snackbar.make(view, "You clicked at " + adapter.getItem(position).getId(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
 }

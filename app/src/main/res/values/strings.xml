@@ -8,4 +8,5 @@
     <string name="title_activity_category_show">CategoryShow</string>
     <string name="title_activity_recipe_show">RecipeShow</string>
     <string name="title_activity_category">Category</string>
+    <string name="url_database">http://192.168.43.147:8000/database</string>
 </resources>

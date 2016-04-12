@@ -36,7 +36,7 @@ public class CustomListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int location) {
+	public Recipe getItem(int location) {
 		return recipeItems.get(location);
 	}
 

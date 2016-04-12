@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -38,7 +41,7 @@ public class Recipes extends AppCompatActivity
     // Log tag
     private static final String TAG = Recipes.class.getSimpleName();
     //Movies json url
-    private static final String url = "http://192.168.43.31:8000/database";
+    private static final String url ="http://192.168.43.147:8000/main";
     private ProgressDialog pDialog;
     private List<Recipe> recipeList = new ArrayList<Recipe>();
     private ListView listView;
@@ -53,16 +56,16 @@ public class Recipes extends AppCompatActivity
         Intent nuevaPantalla;
         nuevaPantalla = new Intent().setClass(
                 Recipes.this, Category.class);
-        nuevaPantalla.putExtra("Name",nombrePantalla);
+        nuevaPantalla.putExtra("Name", nombrePantalla);
         startActivity(nuevaPantalla);
     }
 
     //TODO
-    private void pruebaVer(String nombrePantalla){
+    private void openRecipe(int recipe_id ){
         Intent nuevaPantalla;
         nuevaPantalla = new Intent().setClass(
                 Recipes.this, RecipeShow.class);
-        nuevaPantalla.putExtra("Name",nombrePantalla);
+        nuevaPantalla.putExtra("recipe_id", recipe_id);
         startActivity(nuevaPantalla);
     }
 
@@ -76,7 +79,7 @@ public class Recipes extends AppCompatActivity
         //Show recipes
         loadRecipes();
 
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -114,7 +117,7 @@ public class Recipes extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_info) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -142,8 +145,8 @@ public class Recipes extends AppCompatActivity
         } else if (id == R.id.nav_cat_comfortfoods){
             cambiarPantalla("Comfort Foods");
         } else if (id == R.id.nav_cat_apps){
-            //cambiarPantalla("Apps");
-            pruebaVer("Receta Video Prueba Primera");
+            cambiarPantalla("Apps");
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -231,9 +234,6 @@ public class Recipes extends AppCompatActivity
                                 recipe.setTitle(obj.getString("recipe_title"));
                                 recipe.setThumbnailUrl(obj.getString("recipe_image"));
                                 recipe.setDescription(obj.getString("recipe_description"));
-
-
-
                                 // adding recipe to recipe array
                                 recipeList.add(recipe);
 
@@ -256,7 +256,16 @@ public class Recipes extends AppCompatActivity
             }
         });
 
+
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(recipeReq);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long arg) {
+                openRecipe(adapter.getItem(position).getId());
+            }
+        });
     }
 }
