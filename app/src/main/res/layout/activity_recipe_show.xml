@@ -31,32 +31,6 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_share" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Favorites"
-        android:id="@+id/crearf"
-        android:layout_marginTop="500dp"
-        android:layout_marginRight="30dp"
-        />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cargarfav"
-        android:id="@+id/leerf"
-        android:layout_marginTop="500dp"
-        android:layout_marginLeft="180dp"
-        />
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/leerf"
-        android:layout_alignRight="@+id/leerf"
-        android:layout_alignEnd="@+id/leerf"
-        android:layout_marginRight="29dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginTop="98dp" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -79,9 +79,6 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
 
         getRecipe();
 
-        setData();
-
-
         FloatingActionButton share = (FloatingActionButton) findViewById(R.id.share_btn);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +118,7 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
         // Sets our custom WebViewClient.
         webView.setWebViewClient(new myWebClient());
         // Loads the given URL
-        webView.loadUrl(url+"/video?link="+video_link+"&width="+w);
+        webView.loadUrl(url + "/video?link=" + video_link + "&width=" + w);
     }
 
 
@@ -215,16 +212,6 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
 
         }
 
-
-    }
-
-
-
-
-
-
-
-    private void setData(){
 
     }
 
