@@ -57,10 +57,26 @@ public class Recipes extends AppCompatActivity
         nuevaPantalla = new Intent().setClass(
                 Recipes.this, Category.class);
         nuevaPantalla.putExtra("Name", nombrePantalla);
+        boolean value_fav = false;
+        boolean twoWordsCategory = false;
+        if(nombrePantalla=="Favorite Recipes"){
+            value_fav= true;
+        }else{
+            if(nombrePantalla=="Comfort Foods"){
+                twoWordsCategory=true;
+                nuevaPantalla.putExtra("newName","Comfort");
+            }else{
+                if(nombrePantalla=="Happy Hour"){
+                    twoWordsCategory=true;
+                    nuevaPantalla.putExtra("newName","Happy");
+                }
+            }
+        }
+        nuevaPantalla.putExtra("twoWordsCategory",twoWordsCategory);
+        nuevaPantalla.putExtra("favorite",value_fav);
         startActivity(nuevaPantalla);
     }
 
-    //TODO
     private void openRecipe(int recipe_id ){
         Intent nuevaPantalla;
         nuevaPantalla = new Intent().setClass(

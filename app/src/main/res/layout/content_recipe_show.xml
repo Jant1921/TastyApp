@@ -13,7 +13,7 @@
     tools:showIn="@layout/activity_recipe_show">
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:layout_alignParentLeft="true"
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Preparation"
+                android:text="\nPreparation"
                 android:id="@+id/txt_preparation"
                 android:layout_below="@+id/data_ingredients"
                 android:layout_alignParentLeft="true"

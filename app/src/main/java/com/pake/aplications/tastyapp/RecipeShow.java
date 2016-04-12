@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -34,7 +37,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeShow extends AppCompatActivity implements View.OnClickListener{
+public class RecipeShow extends AppCompatActivity{
     private static final String url = "http://192.168.43.147:8000";
     private int recipe_id;
     private String title;
@@ -45,12 +48,8 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
     protected TextView data_ingredients;
     protected TextView data_preparation;
     ProgressDialog pDialog;
+
     int w= 480;//width
-
-    Button crearf;
-    Button leerf;
-    ListView lista;
-
 
 
     @Override
@@ -59,27 +58,20 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
         // Display a indeterminate progress bar on title bar
         setContentView(R.layout.activity_recipe_show);
 
-        lista=(ListView) findViewById(R.id.listView);
-
-        leerf=(Button)findViewById(R.id.leerf);
-        crearf=(Button)findViewById(R.id.crearf);
-
-        leerf.setOnClickListener(this);
-        crearf.setOnClickListener(this);
-
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
         Bundle bundle = getIntent().getExtras();
         recipe_id=bundle.getInt("recipe_id");
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         w = dm.widthPixels/2;
 
-        getRecipe();
 
-        setData();
+
+        getRecipe();
 
 
         FloatingActionButton share = (FloatingActionButton) findViewById(R.id.share_btn);
@@ -121,7 +113,7 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
         // Sets our custom WebViewClient.
         webView.setWebViewClient(new myWebClient());
         // Loads the given URL
-        webView.loadUrl(url+"/video?link="+video_link+"&width="+w);
+        webView.loadUrl(url + "/video?link=" + video_link + "&width=" + w);
     }
 
 
@@ -165,71 +157,44 @@ public class RecipeShow extends AppCompatActivity implements View.OnClickListene
     }
 
 
-
-    public void onClick(View v){
-        switch (v.getId()){
-
-            case(R.id.leerf):
-                try
-                {
-                    List<String> listado=new ArrayList<String>();
-                    String linea;
-                    String texto="";
-                    BufferedReader fin =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            openFileInput("prueba3.txt")));
-                    if(fin!=null) {
-                        while((linea=fin.readLine())!=null) {
-                            listado.add(linea);
-
-                        }
-
-                    }
-                    fin.close();
-                    Toast.makeText(this,"Carga:"+listado.size(),Toast.LENGTH_LONG).show();
-                    String favoritos[]=listado.toArray(new String[listado.size()]);
-                    ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,favoritos);
-                    lista.setAdapter(adapter);
-                }
-                catch (Exception ex)
-                {
-                    Log.e("Ficheros", "Error in read ");
-                }
-
-                break;
-            case(R.id.crearf):
-                try {
-                    OutputStreamWriter fout =
-                            new OutputStreamWriter(
-                                    openFileOutput("prueba3.txt", Context.MODE_APPEND));
-
-                    fout.write(recipe_id+"\n");
-                    fout.close();
-                } catch (Exception ex) {
-                    Log.e("Ficheros", "Error in writting");
-                }
-                break;
-
-
-
-        }
-
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.recipeshow, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-
-
-
-
-
-    private void setData(){
-
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.fav_star) {
+            try {
+                OutputStreamWriter fout =
+                        new OutputStreamWriter(
+                                openFileOutput("favorites.txt", Context.MODE_APPEND));
+                fout.write(recipe_id+"\n");
+                fout.close();
+                Toast.makeText(RecipeShow.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                item.setIcon(R.drawable.on_star);
+            } catch (Exception ex) {
+                Toast.makeText(RecipeShow.this, "Error.. :/", Toast.LENGTH_SHORT).show();
+                Log.e("Ficheros", "Error in writting");
+            }
+            Toast.makeText(RecipeShow.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+            item.setIcon(R.drawable.on_star);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void onDestroy() {
         super.onDestroy();
     }
+
+
 
 }
