@@ -77,7 +77,7 @@ public class Recipes extends AppCompatActivity
         }
         nuevaPantalla.putExtra("twoWordsCategory",twoWordsCategory);
         nuevaPantalla.putExtra("favorite",value_fav);
-        nuevaPantalla.putExtra("search", true);
+        nuevaPantalla.putExtra("search", false);
         startActivity(nuevaPantalla);
     }
 
@@ -138,7 +138,7 @@ public class Recipes extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_info) {
-            Toast.makeText(Recipes.this,"Tasty is not responsible\nfor health problems caused\nby the products of the recipes",Toast.LENGTH_LONG);
+            Toast.makeText(Recipes.this,"Tasty is not responsible\nfor health problems caused\nby the products of the recipes",Toast.LENGTH_LONG).show();
             return true;
         } else if(id == R.id.action_search){
             Intent nuevaPantalla;
