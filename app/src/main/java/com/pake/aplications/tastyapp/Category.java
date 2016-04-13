@@ -45,13 +45,14 @@ public class Category extends AppCompatActivity {
     private ListView listView;
     private CustomListAdapter adapter;
     private String newTitle;
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         newTitle=bundle.getString("Name");
         boolean fav = bundle.getBoolean("favorite");
         setTitle(newTitle);
@@ -103,8 +104,11 @@ public class Category extends AppCompatActivity {
         pDialog.show();
 
         // Creating volley request obj
-
-        String urlRequest = url+"/category?name="+newTitle;
+        String urlRequest = url + "/category?name=" + newTitle;
+        if(bundle.getBoolean("search")) {
+            String byCat = bundle.getString("cat");
+            urlRequest = url + "/search?name="+newTitle+"&cat="+byCat;
+        }
         JsonArrayRequest recipeReq = new JsonArrayRequest(urlRequest,
                 new Response.Listener<JSONArray>() {
                     @Override

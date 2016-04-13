@@ -16,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -74,6 +77,7 @@ public class Recipes extends AppCompatActivity
         }
         nuevaPantalla.putExtra("twoWordsCategory",twoWordsCategory);
         nuevaPantalla.putExtra("favorite",value_fav);
+        nuevaPantalla.putExtra("search", true);
         startActivity(nuevaPantalla);
     }
 
@@ -134,6 +138,13 @@ public class Recipes extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_info) {
+            Toast.makeText(Recipes.this,"Tasty is not responsible\nfor health problems caused\nby the products of the recipes",Toast.LENGTH_LONG);
+            return true;
+        } else if(id == R.id.action_search){
+            Intent nuevaPantalla;
+            nuevaPantalla = new Intent().setClass(
+                    Recipes.this, Search_Recipe.class);
+            startActivity(nuevaPantalla);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -284,4 +295,6 @@ public class Recipes extends AppCompatActivity
             }
         });
     }
+
+
 }

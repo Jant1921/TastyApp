@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pake.aplications.tastyapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.AppController"
         android:allowBackup="true"
@@ -22,7 +24,8 @@
         <activity
             android:name=".Recipes"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".RecipeShow"
             android:label="@string/title_activity_recipe_show"
@@ -36,11 +39,16 @@
             android:name=".Category"
             android:label="@string/title_activity_category"
             android:parentActivityName=".Recipes"
-            android:theme="@style/AppTheme.NoActionBar"> <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.pake.aplications.tastyapp.Recipes" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pake.aplications.tastyapp.Recipes" />
         </activity>
+        <activity
+            android:name=".Search_Recipe"
+            android:label="Search Recipe"
+            android:parentActivityName=".Recipes"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

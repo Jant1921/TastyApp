@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
@@ -111,9 +112,14 @@ public class RecipeShow extends AppCompatActivity{
         // Tells JavaScript to open windows automatically.
         webView.getSettings().setJavaScriptEnabled(true);
         // Sets our custom WebViewClient.
-        webView.setWebViewClient(new myWebClient());
+
+        webView.setWebChromeClient(new WebChromeClient() {
+
+        });
         // Loads the given URL
+
         webView.loadUrl(url + "/video?link=" + video_link + "&width=" + w);
+
     }
 
 
